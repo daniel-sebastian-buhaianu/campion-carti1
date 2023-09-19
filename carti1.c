@@ -6,7 +6,7 @@
 
 int main()
 {
-	unsigned N, i, *v, nr, poz, j;
+	unsigned N, *poz, i, x, nr;
 
 	FILE *fin = fopen("carti1.in", "r");
 
@@ -16,24 +16,22 @@ int main()
 
 	if (N < NMIN || N > NMAX) { printf("Eroare valoare N\n"); return 2; }
 
-	v = (unsigned*)malloc(N*sizeof(unsigned));
+	poz = (unsigned*)malloc(N*sizeof(unsigned));
 
 	for (i = 0; i < N; i++) {
-		fscanf(fin, "%u", &v[i]);
+		fscanf(fin, "%u", &x);
 
-		if (v[i] < NMIN || v[i] > NMAX) { printf("Eroare valoare v[i]\n"); return 3; }
+		if (x < NMIN || x > NMAX) { printf("Eroare valoare x\n"); return 3; }
+
+		poz[x-1] = i;
 	}
 	
 	fclose(fin);
 
-	for (nr = poz = 0, i = 1; i <= N;) {
-		for (j = poz; j < N && v[j] != i; j++);
-	
-		if (j < N) poz = j+1, i++;
-		else poz = 0, nr++;
-	}	
+	for (nr = 0, i = 1; i < N; i++)
+		if (poz[i] < poz[i-1]) nr++;
 
-	free(v);
+	free(poz);
 
 	FILE *fout = fopen("carti1.out", "w");
 
@@ -43,4 +41,4 @@ int main()
 	
 	return 0;
 }
-// scor 40
+// scor 100
